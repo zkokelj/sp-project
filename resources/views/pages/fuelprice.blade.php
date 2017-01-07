@@ -2,7 +2,7 @@
 
 @section('content')
 <h2 class="noDisplay">Cene goriv</h2>
-      <article class="FuelPrices" >
+      <article class="FuelPrices" onresize="drawFuelPriceGraphs();">
         <h2>Cene goriva</h2>
         <table id="FuelPricesID" class="fuelInfoTable table" >
         <tr>
@@ -23,4 +23,5 @@
         <img src="./data/benzPlot.jpg" alt="Cena 95 okranskega goriva">
       </noscript>
       </article>
+      <script src="./js/fuelPriceGraphCode.js"></script>
 @endsection

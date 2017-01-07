@@ -20,6 +20,8 @@ function drawFuelPriceGraphs(){
   request2.send();
 }
 
+window.onresize = drawFuelPriceGraphs;
+
 function drawPrices(dieselData, elememt, canvasText){
   var c = document.getElementById(elememt);
   c.style.visibility = "visible";

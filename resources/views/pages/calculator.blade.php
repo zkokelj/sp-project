@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+<script src="./js/code.js"></script>
 <h2 class="noDisplay">Kalkulator stroškov</h2>
         <article class="tripCostCalculator">
           <h2>Kalkulator stroškov</h2>
