@@ -22,3 +22,7 @@ Route::get('/comment', 'PagesController@comment')->middleware('authenticated');
 
 
 Route::get('/home', 'HomeController@index');
+
+
+
+Route::post('addcar2user', 'PagesController@addcar2user');

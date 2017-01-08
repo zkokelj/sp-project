@@ -3,6 +3,7 @@
 @section('content')
 <article class="myStats">
           <h2>Moja statistika</h2>
+
         <table class="fuelInfoTable table" >
         <tr>
           <th>Avtomobil</th>
@@ -10,24 +11,24 @@
           <th>Povprečna poraba</th>
           <th>Cena za gorivo</th>
         </tr>
-        <tr>
-          <td><span id="car1">Ford Mustang</span></td>
-          <td><span id="kilometers1">100</span>km</td>
-          <td><span id="averagecon1">20</span>l/100km</td>
-          <td><span id="totalfuelprice1">25</span>€</td>
-        </tr>
-        <tr>
-          <td><span id="car2">Renault Clio</span></td>
-          <td><span id="kilometers2">250</span>km</td>
-          <td><span id="averagecon2">20</span>l/100km</td>
-          <td><span id="totalfuelprice2">23</span>€</td>
-        </tr>
+
+
+
+          @foreach($user_cars as $car)
+            <tr>
+              <td>{{$car->manufacturer->name}} {{$car->model}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          @endforeach
+
       </table>
         </article>
         <article class="displyedData">
           <header><h2>Dodaj porabo </h2></header>
           <div class="displayedCar">
-              <form class="" action="index.html" method="post">
+              <form class="" action="addconsumption" method="post">
                 <table class="fuelInfoTable table" >
                 <tr>
                   <th>Avtomobil</th>
@@ -36,16 +37,22 @@
                   <th></th>
                 </tr>
                 <tr>
-                  <td>Ford Mustang</td>
-                  <td><input class="addKilometers" name="addKilometers"  type="number" min="0" /></td>
-                  <td><input class="addLiters" name="addLiters"  type="number" min="0" /></td>
-                  <td><button type="button" name="button">Potrdi</button></td>
-                </tr>
-                <tr>
-                  <td>Renault Clio</td>
-                  <td><input class="addKilometers" name="addKilometers"  type="number" min="0" /></td>
-                  <td><input class="addLiters" name="addLiters"  type="number" min="0" /></td>
-                  <td><button type="button" name="button">Potrdi</button></td>
+                  <td>
+                    <select name="manufacturer_id" form="addcar2user">
+                    @foreach ($user_cars as $car)
+                      <option value="{{$car->id}}"> {{$car->manufacturer->name}} {{$car->model}} </option>
+                    @endforeach
+                  </select>
+                </td>
+                <td>
+                  <input type="number" name="km" value="0">
+                </td>
+                <td>
+                  <input type="number" name="lfuel" value="0">
+                </td>
+                <td>
+                  <button class="searchButton" type="submit">Dodaj porabo</button>
+                </td>
                 </tr>
               </table>
             </form>
@@ -54,7 +61,7 @@
         <article class="displyedData">
           <header><h2>Dodaj nov avtomobil</h2></header>
           <div class="newCar">
-              <form class="" action="index.html" method="post">
+              <form class="" action="addcar2user" method="post" id="addcar2user">
                 <table class="fuelInfoTable table" >
                 <tr>
                   <th>Znamka</th>
@@ -64,29 +71,34 @@
                   <th>Gorivo</th>
                 </tr>
                 <tr>
-                  <td><select name="select">
-                    <option value="value1" selected>Seat</option>
-                    <option value="value2">Renault</option>
-                    <option value="value3">Audi</option>
+                  <td>
+
+                    <select name="manufacturer_id" form="addcar2user">
+
+                    @foreach ($carm as $m)
+                      <option value="{{$m->id}}"> {{$m->name}} </option>
+
+                    @endforeach
                   </select></td>
-                  <td><select name="select">
-                    <option value="value1" selected>Ibiza</option>
-                    <option value="value2">Clio</option>
-                    <option value="value3">R8</option>
-                  </select></td>
-                  <td><input type="number" name="letnik" value="" min="1900" max="2017"></td>
-                  <td><input type="number" name="prostornina" value="" min="0" max="50" step="0.1"></td>
-                  <td><select name="select">
-                    <option value="value1" selected>Bencin</option>
-                    <option value="value2">95 oktanski bencin</option>
-                    <option value="value3">100 oktanski bencin</option>
+                  <td>
+                    <input type="text" name="model" value="">
+                  </td>
+                  <td><input type="number" name="year" value="" min="1900" max="2017"></td>
+                  <td><input type="number" name="ccm" value="" min="0" max="50" step="0.1"></td>
+                  <td><select name="fuel">
+                    <option value="bencin" selected>Bencin</option>
+                    <option value="dizel">Dizel</option>
                   </select></td>
                 </tr>
               </table>
               <div class="blueButton">
               <button class="searchButton" type="submit">Dodaj nov avtomobil</button>
+              {{ csrf_field() }}
               </div>
             </form>
           </div>
+
+
+
         </article>
 @endsection
