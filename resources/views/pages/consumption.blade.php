@@ -28,7 +28,7 @@
         <article class="displyedData">
           <header><h2>Dodaj porabo </h2></header>
           <div class="displayedCar">
-              <form class="" action="addconsumption" method="post">
+              <form class="" action="addconsumption" method="post" id="addconsumption">
                 <table class="fuelInfoTable table" >
                 <tr>
                   <th>Avtomobil</th>
@@ -38,19 +38,20 @@
                 </tr>
                 <tr>
                   <td>
-                    <select name="manufacturer_id" form="addcar2user">
+                    <select name="car_id" form="addconsumption">
                     @foreach ($user_cars as $car)
                       <option value="{{$car->id}}"> {{$car->manufacturer->name}} {{$car->model}} </option>
                     @endforeach
                   </select>
                 </td>
                 <td>
-                  <input type="number" name="km" value="0">
+                  <input type="number" name="kilometers" value="0">
                 </td>
                 <td>
-                  <input type="number" name="lfuel" value="0">
+                  <input type="number" name="liters" value="0">
                 </td>
                 <td>
+                  {{ csrf_field() }}
                   <button class="searchButton" type="submit">Dodaj porabo</button>
                 </td>
                 </tr>

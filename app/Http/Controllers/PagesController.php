@@ -96,4 +96,10 @@ class PagesController extends Controller
       return redirect('/consumption');
     }
 
+    public function addconsumption(Request $request){
+      $input = $request->all();
+      //TODO Continue here!
+      return $input;
+    }
+
 }
