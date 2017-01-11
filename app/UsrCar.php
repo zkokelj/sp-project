@@ -21,4 +21,6 @@ class UsrCar extends Model
     public function manufacturer(){
       return $this->belongsTo('App\CarManufacturer', 'manufacturer_id');
     }
+
+  
 }

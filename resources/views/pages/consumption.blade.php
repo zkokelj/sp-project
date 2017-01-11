@@ -8,8 +8,8 @@
         <tr>
           <th>Avtomobil</th>
           <th>Prevoženih kolometrov</th>
+          <th>Porabljenega goriva</th>
           <th>Povprečna poraba</th>
-          <th>Cena za gorivo</th>
         </tr>
 
 
@@ -17,9 +17,9 @@
           @foreach($user_cars as $car)
             <tr>
               <td>{{$car->manufacturer->name}} {{$car->model}}</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{{$car->total_km}}</td>
+              <td>{{$car->total_fuel}}</td>
+              <td>{{$car->average_consumption}}</td>
             </tr>
           @endforeach
 

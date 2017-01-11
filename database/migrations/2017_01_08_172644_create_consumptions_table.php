@@ -17,7 +17,7 @@ class CreateConsumptionsTable extends Migration
             $table->increments('id');
             //$table->integer('user_id');
             $table->integer('car_id')->unsigned();
-            $table->foreign('car_id')->references('id')->on('usr_cars');
+            $table->foreign('car_id')->references('id')->on('usr_cars')->onDelete('cascade');
             $table->integer('liters');
             $table->integer('kilometers');
             $table->timestamps('time_added');

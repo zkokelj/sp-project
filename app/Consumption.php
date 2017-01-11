@@ -17,5 +17,9 @@ class Consumption extends Model
       'updated_at'
     ];
 
-    
+    public function carOwner(){
+      return $this->belongsTo('App\UsrCar', 'car_id');
+    }
+
+
 }

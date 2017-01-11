@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use View;
 use App\CarManufacturer;
 use App\UsrCar;
+use App\Consumption;
 use Illuminate\Support\Facades\Auth;
+
 
 class PagesController extends Controller
 {
@@ -66,6 +69,14 @@ class PagesController extends Controller
 
         foreach ($user_cars as $car) {
           $car['manufacturer_name'] = $car->manufacturer->name;
+          $car['total_km'] = Consumption::where('car_id', $car['id'])->sum('kilometers');
+          $car['total_fuel'] = Consumption::where('car_id', $car['id'])->sum('liters');
+
+          if($car['total_km'] > 0 && $car['total_fuel'] > 0){
+            $car['average_consumption'] = round($car['total_fuel']/($car['total_km'] / 100),2);
+          }else{
+            $car['average_consumption'] = '\\';
+          }
         }
 
         //return $user_cars;
@@ -87,6 +98,13 @@ class PagesController extends Controller
     }
 
     public function addcar2user(Request $request){
+     $this->validate($request, [
+        'model' => 'bail|required',
+        'year' => 'bail|required|numeric|min:1900',
+        'ccm' => 'bail|required|numeric|min:0',
+        'fuel'=> 'bail|required|in:bencin,dizel'
+      ]);
+
       $input = $request->all();
 
       $input['user_id'] = Auth::id();
@@ -97,9 +115,29 @@ class PagesController extends Controller
     }
 
     public function addconsumption(Request $request){
+      $this->validate($request, [
+        'car_id' => 'bail|required|numeric',
+        'liters' => 'bail|required|numeric|min:0',
+        'kilometers' => 'bail|required|numeric|min:0'
+      ]);
+
+
       $input = $request->all();
-      //TODO Continue here!
-      return $input;
+
+      $user_cars = UsrCar::where('user_id', '=', Auth::id())
+              ->where('id', $input['car_id'])
+              ->orderBy('id', 'desc')
+             ->get();
+
+      if($user_cars != '[]'){
+        //We var belongs to this user -> we can add consumption
+          Consumption::create($input);
+          return redirect('/consumption');
+        return $user_cars;
+      }else{
+        return "REDIRECT TO PAGE 404!";
+      }
+      return $user_cars;
     }
 
 }
