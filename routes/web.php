@@ -28,3 +28,7 @@ Route::get('/home', 'HomeController@index');
 Route::post('addcar2user', 'PagesController@addcar2user');
 
 Route::post('addconsumption', 'PagesController@addconsumption');
+
+Route::post('changelanguage', 'PagesController@changeLanguage');
+
+Route::post('searchConsumption', 'PagesController@searchConsumption');

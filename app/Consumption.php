@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * ... text1 ...
+ */
 class Consumption extends Model
 {
-    //
+    /**
+    * ... text2 ...
+    */
     public $timestamps = false;
 
     protected $fillable = [

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css" type="text/css" />
-    
+
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -31,6 +31,11 @@
           @endif
         </ul>
       </nav>
+      <form class="" action="changelanguage" method="post" style="text-align: right; margin-right: 10%;">
+        <input width="20px" height="20px" type="image" src="uk.png" name="uk" value="uk" />
+        <input width="20px" height="20px" type="image" src="sl.png" name="sl" value="sl" />
+        {{ csrf_field() }}
+      </form>
     </header>
     <div class="mainWrapper">
       <section class="mainContent">
@@ -39,6 +44,14 @@
 
       <section class="sidebar">
         <h2 class="noDisplay">Profil</h2>
+        <!--<form class="" action="changelanguage" method="post" style="text-align: center;">
+          <select class="" name="lang">
+              <option value="en">English</option>
+              <option value="si">Slovene</option>
+          </select>
+          {{ csrf_field() }}
+          <button type="submit" name="button">Change language</button>
+        </form> -->
         <aside class="topSidebar">
             @if (Auth::guest())
               <h2> Prijava </h2>

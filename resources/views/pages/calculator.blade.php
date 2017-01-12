@@ -3,6 +3,7 @@
 @section('content')
 <script src="./js/code.js"></script>
 <h2 class="noDisplay">Kalkulator stroškov</h2>
+<h2>{{trans('greetings.hello')}}</h2>
         <article class="tripCostCalculator">
           <h2>Kalkulator stroškov</h2>
           <form class="tripCostForm" action="tripCost.html" method="post">

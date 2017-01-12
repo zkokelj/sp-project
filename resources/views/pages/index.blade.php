@@ -5,64 +5,67 @@
       <article class="search">
           <h2>Iskanje povprečne porabe</h2>
           <div class="searchCriteria">
-            <form class="searchForm" action="index.html" method="post">
+            <form class="searchForm" action="searchConsumption" method="post">
               <table class="searchTable">
                 <tr>
                   <td>Znamka:</td>
                   <td><select name="select">
-                    <option value="value1" selected>Seat</option>
-                    <option value="value2">Renault</option>
-                    <option value="value3">Audi</option>
+                    @foreach($carm as $m)
+                      <option value="{{$m->id}}">{{$m->name}}</option>
+                    @endforeach
+
+
                   </select></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
                   <td>Model:</td>
-                  <td><select name="select">
-                    <option value="value1" selected>Ibiza</option>
-                    <option value="value2">Clio</option>
-                    <option value="value3">A4</option>
-                  </select></td>
+                  <td><input type="text" name="model" value=""></td>
                   <td></td>
                   <td></td>
-                </tr>
-                <tr>
-                  <td>Starost od:</td>
-                  <td><select name="select">
-                    <option value="value1" selected>2005</option>
-                    <option value="value2">2006</option>
-                    <option value="value3">2007</option>
-                  </select></td>
-                  <td> do: </td>
-                  <td><select name="select">
-                    <option value="value1" selected>2016</option>
-                    <option value="value2">2015</option>
-                    <option value="value3">2014</option>
-                  </select></td>
                 </tr>
                 <tr>
                   <td>Gorivo: </td>
                   <td>  <select name="select">
-                      <option value="value1" selected>2016</option>
-                      <option value="value2">2015</option>
-                      <option value="value3">2014</option>
+                      <option value="bencin" selected>Bencin</option>
+                      <option value="dizel">Dizel</option>
                     </select></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                   <td>Prostorinina motorja od: </td>
-                  <td><select name="select">
-                    <option value="value1" selected>2016</option>
-                    <option value="value2">2015</option>
-                    <option value="value3">2014</option>
+                  <td><select name="od">
+                    <option value="0.5" >0.5</option>
+                    <option value="0.8" >0.8</option>
+                    <option value="1.0" >1.0</option>
+                    <option value="1.2" >1.2</option>
+                    <option value="1.4" selected>1.4</option>
+                    <option value="1.6" >1.6</option>
+                    <option value="1.8" >1.8</option>
+                    <option value="2.0" >2.0</option>
+                    <option value="2.5" >2.5</option>
+                    <option value="3.0" >3.0</option>
+                    <option value="3.5" >3.5</option>
+                    <option value="4.0" >4.0</option>
+                    <option value="4.5" >4.5</option>
                   </select></td>
                   <td> do: </td>
-                  <td><select name="select">
-                    <option value="value1" selected>2016</option>
-                    <option value="value2">2015</option>
-                    <option value="value3">2014</option>
+                  <td><select name="do">
+                    <option value="0.5" >0.5</option>
+                    <option value="0.8" >0.8</option>
+                    <option value="1.0" >1.0</option>
+                    <option value="1.2" >1.2</option>
+                    <option value="1.4" >1.4</option>
+                    <option value="1.6" selected>1.6</option>
+                    <option value="1.8" >1.8</option>
+                    <option value="2.0" >2.0</option>
+                    <option value="2.5" >2.5</option>
+                    <option value="3.0" >3.0</option>
+                    <option value="3.5" >3.5</option>
+                    <option value="4.0" >4.0</option>
+                    <option value="4.5" >4.5</option>
                   </select></td>
                 </tr>
                 <tr>

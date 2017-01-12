@@ -24,4 +24,8 @@ class UnitTest extends TestCase
       echo $user;
       $this->seeInDatabase('users', ['id'=>$user['id'], 'name'=>$user['name'], 'email' =>$user['email']]);
     }
+
+    //TODO
+    //testiraj funkcije v modelu
+    //naredi tudi negativne teste, da fail-a.
 }

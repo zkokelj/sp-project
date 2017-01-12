@@ -9,13 +9,15 @@ use App\CarManufacturer;
 use App\UsrCar;
 use App\Consumption;
 use Illuminate\Support\Facades\Auth;
+use Lang;
 
 
 class PagesController extends Controller
 {
     public function index(){
       if(View::exists('pages.index')){
-        return view('pages.index');
+        $carm = CarManufacturer::all();
+        return view('pages.index', compact('carm'));
         //->with('name', 'Ziga');
       }else{
         return 'No view available.';
@@ -138,6 +140,37 @@ class PagesController extends Controller
         return "REDIRECT TO PAGE 404!";
       }
       return $user_cars;
+    }
+
+    public function changeLanguage(Request $request)
+    {
+      $input = $request->all();
+      App::setLocale('en');
+      return redirect()->back();
+
+        $rules = [
+        'language' => 'in:en,si' //list of supported languages of your application.
+        ];
+
+        //$language = Input::get('lang'); //lang is name of form select field.
+        //return $input;
+
+        $this->validate($request, [
+          'lang' => 'in:en,sl'
+        ]);
+
+        App:setLocale($input['lang']);
+
+
+
+        return redirect()->back();
+    }
+
+    public function searchConsumption(Request $request){
+      $input = $request->all();
+      //TODO: validate input
+
+      $result =0;
     }
 
 }
