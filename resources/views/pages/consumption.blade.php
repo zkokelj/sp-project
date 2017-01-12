@@ -2,14 +2,14 @@
 
 @section('content')
 <article class="myStats">
-          <h2>Moja statistika</h2>
+          <h2>{{trans('lang.my_stats')}}</h2>
 
         <table class="fuelInfoTable table" >
         <tr>
-          <th>Avtomobil</th>
-          <th>Prevoženih kolometrov</th>
-          <th>Porabljenega goriva</th>
-          <th>Povprečna poraba</th>
+          <th>{{trans('lang.car')}}</th>
+          <th>{{trans('lang.number_of_km')}}</th>
+          <th>{{trans('lang.fuel_consumed')}}</th>
+          <th>{{trans('lang.average_consumption')}}</th>
         </tr>
 
 
@@ -26,14 +26,14 @@
       </table>
         </article>
         <article class="displyedData">
-          <header><h2>Dodaj porabo </h2></header>
+          <header><h2>{{trans('lang.add_consumption')}} </h2></header>
           <div class="displayedCar">
               <form class="" action="addconsumption" method="post" id="addconsumption">
                 <table class="fuelInfoTable table" >
                 <tr>
-                  <th>Avtomobil</th>
-                  <th>Prevoženih kolometrov</th>
-                  <th>Porabljenega goriva</th>
+                  <th>{{trans('lang.car')}}</th>
+                  <th>{{trans('lang.number_of_km')}}</th>
+                  <th>{{trans('lang.fuel_consumed')}}</th>
                   <th></th>
                 </tr>
                 <tr>
@@ -52,7 +52,7 @@
                 </td>
                 <td>
                   {{ csrf_field() }}
-                  <button class="searchButton" type="submit">Dodaj porabo</button>
+                  <button class="searchButton" type="submit">{{trans('lang.add_consumption')}}</button>
                 </td>
                 </tr>
               </table>
@@ -60,16 +60,16 @@
           </div>
         </article>
         <article class="displyedData">
-          <header><h2>Dodaj nov avtomobil</h2></header>
+          <header><h2>{{trans('lang.add_car')}}</h2></header>
           <div class="newCar">
               <form class="" action="addcar2user" method="post" id="addcar2user">
                 <table class="fuelInfoTable table" >
                 <tr>
-                  <th>Znamka</th>
-                  <th>Model</th>
-                  <th>Letnik</th>
-                  <th>Prostornina(ccm2)</th>
-                  <th>Gorivo</th>
+                  <th>{{trans('lang.manufacturer')}}</th>
+                  <th>{{trans('lang.model')}}</th>
+                  <th>{{trans('lang.year')}}</th>
+                  <th>{{trans('lang.engine_size')}}</th>
+                  <th>{{trans('lang.fuel')}}</th>
                 </tr>
                 <tr>
                   <td>
@@ -87,13 +87,13 @@
                   <td><input type="number" name="year" value="" min="1900" max="2017"></td>
                   <td><input type="number" name="ccm" value="" min="0" max="50" step="0.1"></td>
                   <td><select name="fuel">
-                    <option value="bencin" selected>Bencin</option>
-                    <option value="dizel">Dizel</option>
+                    <option value="bencin" selected>{{trans('lang.benz')}}</option>
+                    <option value="dizel">{{trans('lang.diesel')}}</option>
                   </select></td>
                 </tr>
               </table>
               <div class="blueButton">
-              <button class="searchButton" type="submit">Dodaj nov avtomobil</button>
+              <button class="searchButton" type="submit">{{trans('lang.add_car')}}</button>
               {{ csrf_field() }}
               </div>
             </form>

@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
-<h2 class="noDisplay">Cene goriv</h2>
+<h2 class="noDisplay">{{trans('lang.fuel_price')}}</h2>
       <article class="FuelPrices" onresize="drawFuelPriceGraphs();">
-        <h2>Cene goriva</h2>
+        <h2>{{trans('lang.fuel_price')}}</h2>
         <table id="FuelPricesID" class="fuelInfoTable table" >
         <tr>
-          <th>Dizel</th>
-          <th>95 oktanski</th>
+          <th>{{trans('lang.diesel')}}</th>
+          <th>{{trans('lang.benz')}}</th>
         </tr>
         <tr>
           <td>1.1€</td>
