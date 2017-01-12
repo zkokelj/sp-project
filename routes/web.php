@@ -29,6 +29,9 @@ Route::post('addcar2user', 'PagesController@addcar2user');
 
 Route::post('addconsumption', 'PagesController@addconsumption');
 
+Route::post('searchConsumption', 'PagesController@searchConsumption');
+
+
 Route::post('changelanguage', 'PagesController@changeLanguage');
 
-Route::post('searchConsumption', 'PagesController@searchConsumption');
+Route::get('lang/{lang}', ['as'=>'lang.switch', 'uses'=>'LanguageController@switchLang']);

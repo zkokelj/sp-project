@@ -142,7 +142,7 @@ class PagesController extends Controller
       return $user_cars;
     }
 
-    public function changeLanguage(Request $request)
+    /*public function changeLanguage(Request $request)
     {
       $input = $request->all();
       App::setLocale('en');
@@ -165,7 +165,8 @@ class PagesController extends Controller
 
         return redirect()->back();
     }
-
+    */
+    
     public function searchConsumption(Request $request){
       $input = $request->all();
       //TODO: validate input

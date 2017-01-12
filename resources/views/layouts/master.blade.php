@@ -31,11 +31,17 @@
           @endif
         </ul>
       </nav>
-      <form class="" action="changelanguage" method="post" style="text-align: right; margin-right: 10%;">
-        <input width="20px" height="20px" type="image" src="uk.png" name="uk" value="uk" />
-        <input width="20px" height="20px" type="image" src="sl.png" name="sl" value="sl" />
-        {{ csrf_field() }}
-      </form>
+
+        <ul>
+            @foreach (Config::get('languages') as $lang => $language)
+                @if ($lang != App::getLocale())
+                    <li style = "text-align: right; list-style-type: none; margin-right: 10%;">
+                        <a href="{{ route('lang.switch', $lang) }}"><input width="20px" height="20px" type="image" src="{{$lang}}.png" /></a>
+                    </li>
+                @endif 
+            @endforeach
+        </ul>
+
     </header>
     <div class="mainWrapper">
       <section class="mainContent">
@@ -52,6 +58,11 @@
           {{ csrf_field() }}
           <button type="submit" name="button">Change language</button>
         </form> -->
+
+
+
+
+
         <aside class="topSidebar">
             @if (Auth::guest())
               <h2> Prijava </h2>
