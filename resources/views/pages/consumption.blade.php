@@ -3,7 +3,6 @@
 @section('content')
 <article class="myStats">
           <h2>{{trans('lang.my_stats')}}</h2>
-
         <table class="fuelInfoTable table" >
         <tr>
           <th>{{trans('lang.car')}}</th>
@@ -14,17 +13,23 @@
 
 
 
-          @foreach($user_cars as $car)
+          @forelse($user_cars as $car)
             <tr>
               <td>{{$car->manufacturer->name}} {{$car->model}}</td>
               <td>{{$car->total_km}}</td>
               <td>{{$car->total_fuel}}</td>
               <td>{{$car->average_consumption}}</td>
             </tr>
-          @endforeach
+          @empty
+          <tr>
+            <td colspan="4">{{trans('lang.you_no_cars')}}</td>
+
+          </tr>
+          @endforelse
 
       </table>
         </article>
+        @if(isset($user_cars) && $user_cars != '[]')
         <article class="displyedData">
           <header><h2>{{trans('lang.add_consumption')}} </h2></header>
           <div class="displayedCar">
@@ -59,6 +64,7 @@
             </form>
           </div>
         </article>
+        @endif
         <article class="displyedData">
           <header><h2>{{trans('lang.add_car')}}</h2></header>
           <div class="newCar">
@@ -73,9 +79,7 @@
                 </tr>
                 <tr>
                   <td>
-
                     <select name="manufacturer_id" form="addcar2user">
-
                     @foreach ($carm as $m)
                       <option value="{{$m->id}}"> {{$m->name}} </option>
 

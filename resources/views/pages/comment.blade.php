@@ -2,8 +2,8 @@
 
 @section('content')
 <h2 class="noDisplay">Iskanje po drugih uporabnikih</h2>
-      <form class="searchUser" action="#" method="post">
-        <label for="username">Uporaniško ime: </label> <input id="username" type="text" name="user" value="">
+      <form class="searchUser" action="serachForUsers" method="post">
+        <label for="username">{{trans('lang.email')}} </label> <input id="username" type="text" name="user" value="">
         <button type="submit" name="button">Išči</button>
       </form>
       <div class="resultUser">
@@ -30,15 +30,5 @@
           <button type="submit" name="button">Komentiraj</button>
         </form>
         <br>
-        <hr>
-        <div class="rating">
-          <form action="#.html" method="post">
-            <p>Prosimo Vas, da cenite realnost uporabnikovih podatkov ter tako omogočite bolj realen izračun skupne
-              povprečne porabe.(1=zelo nerealni podatki, 5=zelo realni podatki)</p>
-            <input type="number" name="rateInput" value="3" min="1" max="5" step="1">
-            <br>
-            <button type="submit" name="button">Glasuj</button>
-          </form>
-        </div>
       </div>
 @endsection

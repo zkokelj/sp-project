@@ -9,7 +9,7 @@
               <table class="searchTable">
                 <tr>
                   <td>{{trans('lang.manufacturer')}}:</td>
-                  <td><select name="select">
+                  <td><select name="manufacturer">
                     @foreach($carm as $m)
                       <option value="{{$m->id}}">{{$m->name}}</option>
                     @endforeach
@@ -20,13 +20,13 @@
                 </tr>
                 <tr>
                   <td>{{trans('lang.model')}}:</td>
-                  <td><input type="text" name="model" value=""></td>
+                  <td><input type="text" name="model" value="" required="true"></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
                   <td>{{trans('lang.fuel')}}: </td>
-                  <td>  <select name="select">
+                  <td>  <select name="fuel">
                       <option value="bencin" selected>Bencin</option>
                       <option value="dizel">Dizel</option>
                     </select></td>
@@ -70,6 +70,7 @@
                 <tr>
                   <td colspan="4">
                     <div class="blueButton">
+                    {{ csrf_field() }}
                     <button class="searchButton" type="submit">{{trans('lang.search')}}</button>
                     </div>
                   </td>
@@ -77,13 +78,21 @@
               </table>
             </form>
         </div>
-        <div class="searchResultAverage">
+
+
+    @if(isset($average_consumption))
+    <div class="">
           <table class="fuelInfoTable table">
             <tr>
-              <th>{{trans('lang.averege_consumption_is')}}:</th>
-              <td id="averageFuelConsumptionSearch">/</td>
+              <th>{{trans('lang.average_consumption_is')}}:</th>
+              @if($average_consumption == '0')
+                <td id="averageFuelConsumptionSearch">{{trans('lang.no_data')}}</td>
+              @else
+                <td id="averageFuelConsumptionSearch">{{$average_consumption}}</td>
+              @endif
             </tr>
           </table>
         </div>
       </article>
+  @endif
 @endsection

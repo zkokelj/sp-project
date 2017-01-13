@@ -25,6 +25,11 @@ class UnitTest extends TestCase
       $this->seeInDatabase('users', ['id'=>$user['id'], 'name'=>$user['name'], 'email' =>$user['email']]);
     }
 
+    /** @test */
+    public function testUsrCars_manufacturer(){
+      $this->assertTrue(true);
+    }
+
     //TODO
     //testiraj funkcije v modelu
     //naredi tudi negativne teste, da fail-a.

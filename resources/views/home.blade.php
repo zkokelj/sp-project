@@ -9,7 +9,7 @@
               <table class="searchTable">
                 <tr>
                   <td>{{trans('lang.manufacturer')}}:</td>
-                  <td><select name="select">
+                  <td><select name="manufacturer">
                     @foreach($carm as $m)
                       <option value="{{$m->id}}">{{$m->name}}</option>
                     @endforeach
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                   <td>{{trans('lang.fuel')}}: </td>
-                  <td>  <select name="select">
+                  <td>  <select name="fuel">
                       <option value="bencin" selected>Bencin</option>
                       <option value="dizel">Dizel</option>
                     </select></td>
@@ -70,6 +70,7 @@
                 <tr>
                   <td colspan="4">
                     <div class="blueButton">
+                    {{ csrf_field() }}
                     <button class="searchButton" type="submit">{{trans('lang.search')}}</button>
                     </div>
                   </td>

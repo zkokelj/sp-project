@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use View;
 use App\CarManufacturer;
 use App\UsrCar;
+use App\User;
 use App\Consumption;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Lang;
+use Log;
 
 
 class PagesController extends Controller
@@ -17,9 +20,11 @@ class PagesController extends Controller
     public function index(){
       if(View::exists('pages.index')){
         $carm = CarManufacturer::all();
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: index");
         return view('pages.index', compact('carm'));
-        //->with('name', 'Ziga');
       }else{
+        Log::critical("pages.index view not available");
         return 'No view available.';
       }
     }
@@ -27,26 +32,49 @@ class PagesController extends Controller
     public function calculator(){
       if(View::exists('pages.calculator')){
         return view('pages.calculator');
-        //->with('name', 'Ziga');
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: calculator");
       }else{
+        Log::critical("pages.calculator view not available");
         return 'No view available.';
       }
     }
 
     public function fuelprice(){
       if(View::exists('pages.fuelprice')){
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: fuelprice");
         return view('pages.fuelprice');
-        //->with('name', 'Ziga');
       }else{
+        Log::critical("pages.fuelprices view not available");
         return 'No view available.';
       }
     }
 
     public function pagestats(){
       if(View::exists('pages.pagestats')){
-        return view('pages.pagestats');
-        //->with('name', 'Ziga');
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: pagestats");
+
+
+        $num_of_users = User::count();
+        $num_of_km = Consumption::where('car_id', '!=', '0')->sum('kilometers');
+        $liters = Consumption::where('car_id', '!=', '0')->sum('liters');
+        return view('pages.pagestats', compact('num_of_users', 'num_of_km', 'liters'));
+
       }else{
+        Log::critical("pages.pagestats view not available");
+        return 'No view available.';
+      }
+    }
+
+    public function editProfile(){
+      if(View::exists('pages.editProfile')){
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: editProfile");
+        return view('pages.editProfile');
+      }else{
+        Log::critical("pages.editProfile view not available");
         return 'No view available.';
       }
     }
@@ -57,17 +85,7 @@ class PagesController extends Controller
         $id = Auth::id();
         $user_cars = UsrCar::where('user_id', '=', $id)
                 ->orderBy('id', 'desc')
-            //   ->take(10)
                ->get();
-
-      //  $user_cars =  UsrCar::all();
-      //  return $user_cars;
-
-
-
-
-        //return $id;
-        //$manufacturer = UsrCar::find(1)->manufacturer;
 
         foreach ($user_cars as $car) {
           $car['manufacturer_name'] = $car->manufacturer->name;
@@ -81,20 +99,22 @@ class PagesController extends Controller
           }
         }
 
-        //return $user_cars;
-
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: consumption");
         return view('pages.consumption', compact('id', 'carm', 'user_cars'));
-        //->with('name', 'Ziga');
       }else{
+        Log::critical("pages.consumption view not available");
         return 'No view available.';
       }
     }
 
     public function comment(){
       if(View::exists('pages.comment')){
+        $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+        Log::info("User: " . $user_id . " visited page: comment");
         return view('pages.comment');
-        //->with('name', 'Ziga');
       }else{
+        Log::critical("pages.comment view not available");
         return 'No view available.';
       }
     }
@@ -112,7 +132,8 @@ class PagesController extends Controller
       $input['user_id'] = Auth::id();
 
       UsrCar::create($input);
-
+      $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+      Log::info("User: " . $user_id . " added new car!");
       return redirect('/consumption');
     }
 
@@ -131,47 +152,75 @@ class PagesController extends Controller
               ->orderBy('id', 'desc')
              ->get();
 
+
+      $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
       if($user_cars != '[]'){
-        //We var belongs to this user -> we can add consumption
-          Consumption::create($input);
-          return redirect('/consumption');
-        return $user_cars;
+        //The car belongs to this user -> we can add consumption
+        Consumption::create($input);
+        Log::info("User: " . $user_id . " added consumption to: " . $user_cars);
+        return redirect('/consumption');
       }else{
+        Log::warning("User: " . $user_id . " cannot add consumption to car: " . $request['car_id'] );
         return "REDIRECT TO PAGE 404!";
       }
-      return $user_cars;
     }
 
-    /*public function changeLanguage(Request $request)
-    {
-      $input = $request->all();
-      App::setLocale('en');
-      return redirect()->back();
-
-        $rules = [
-        'language' => 'in:en,si' //list of supported languages of your application.
-        ];
-
-        //$language = Input::get('lang'); //lang is name of form select field.
-        //return $input;
-
-        $this->validate($request, [
-          'lang' => 'in:en,sl'
-        ]);
-
-        App:setLocale($input['lang']);
-
-
-
-        return redirect()->back();
-    }
-    */
-    
     public function searchConsumption(Request $request){
       $input = $request->all();
       //TODO: validate input
 
-      $result =0;
+      //return $request->all();
+
+      $fuel_consumed = DB::table('consumptions')
+            ->select('consumptions.liters','consumptions.kilometers','usr_cars.model', 'usr_cars.ccm', 'usr_cars.fuel', 'car_manufacturers.id')
+            ->where('usr_cars.model', '=', $input['model'])
+            ->where('car_manufacturers.id', '=', $input['manufacturer'])
+            ->where('usr_cars.fuel', '=', $input['fuel'])
+            ->whereBetween('usr_cars.ccm', [$input['od'], $input['do']])
+            ->leftJoin('usr_cars', 'consumptions.car_id', '=', 'usr_cars.id')
+            ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
+            ->sum('consumptions.liters');
+
+      $kilometers = DB::table('consumptions')
+            ->select('consumptions.liters','consumptions.kilometers','usr_cars.model', 'usr_cars.ccm', 'usr_cars.fuel', 'car_manufacturers.id')
+            ->where('usr_cars.model', '=', $input['model'])
+            ->where('car_manufacturers.id', '=', $input['manufacturer'])
+            ->where('usr_cars.fuel', '=', $input['fuel'])
+            ->whereBetween('usr_cars.ccm', [$input['od'], $input['do']])
+            ->leftJoin('usr_cars', 'consumptions.car_id', '=', 'usr_cars.id')
+            ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
+            ->sum('consumptions.kilometers');
+      $average_consumption = 0;
+      if($kilometers > 0 && $fuel_consumed > 0){
+        $average_consumption =  $fuel_consumed/($kilometers/100);
+      }
+
+
+      $carm = CarManufacturer::all();
+      $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
+      Log::info("User: " . $user_id . " searched for consumption.");
+      return view('pages.index', compact('carm', 'average_consumption'));
+    }
+
+    public function updateName(Request $request){
+      $this->validate($request, [
+         'editName' => 'required|min:1|max:25'
+       ]);
+       $input = $request->all();
+       DB::statement("UPDATE users SET name = ? where id = ?", [$request['editName'], Auth::id()]);
+       return redirect()->back();
+    }
+
+    public function updatePassword(Request $request){
+      $this->validate($request, [
+         'editPass1' => 'required|min:6|max:25',
+         'editPass2' => 'required|min:6|max:25'
+       ]);
+
+       if($request['editPass1'] == $request['editPass2']){
+          DB::statement("UPDATE users SET password = ? where id = ?", [bcrypt($request['editPass1']), Auth::id()]);
+       }
+        return redirect()->back();
     }
 
 }

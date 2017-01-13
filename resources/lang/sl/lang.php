@@ -42,7 +42,11 @@ return array(
   'add_consumption' => 'Dodaj porabo',
   'add_car' => 'Dodaj nov avtomobil',
   'year' => 'Letnik',
-  'engine_size' => 'Velikost motorja(ccm2)'
+  'engine_size' => 'Velikost motorja(ccm2)',
+
+
+  
+  'password_again' => "Ponovno geslo"
 
 
 );
