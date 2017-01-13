@@ -25,5 +25,13 @@ class Consumption extends Model
       return $this->belongsTo('App\UsrCar', 'car_id');
     }
 
+    public function getKilometersByCarID($car_id){
+      $kilometers = DB::table('consumptions')
+            ->select('consumptions.liters','consumptions.kilometers')
+            
+            ->sum('consumptions.kilometers');
+            return $kilometers;
+    }
+
 
 }

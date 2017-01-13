@@ -2,10 +2,14 @@
 
 @section('content')
 <h2 class="noDisplay">Iskanje po drugih uporabnikih</h2>
-      <form class="searchUser" action="serachForUsers" method="post">
+      <form class="searchUser" action="searchForUsers" method="post">
         <label for="username">{{trans('lang.email')}} </label> <input id="username" type="text" name="user" value="">
+        {{ csrf_field() }}
         <button type="submit" name="button">Išči</button>
       </form>
+
+      @if(isset($result1) && $result1 != '[]')
+      {{$result1}}
       <div class="resultUser">
         <h3>Uporabnik ChuckNorris ima v lasti:</h3>
         <table class="otherUserTable">
@@ -31,4 +35,5 @@
         </form>
         <br>
       </div>
+      @endif
 @endsection

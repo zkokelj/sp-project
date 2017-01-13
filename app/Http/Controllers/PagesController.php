@@ -223,4 +223,22 @@ class PagesController extends Controller
         return redirect()->back();
     }
 
+    public function searchForUsers(Request $request){
+    /*  $this->validate($request, [
+         'user' => 'required'
+       ]);
+       $input = $request->all();
+
+       $result1 = DB::table('users')
+             ->select('users.email as email', 'usr_cars.model as model', 'car_manufacturers.name as manufacturer', 'usr_cars.id as car_id')
+             ->where('users.email', '=', $input['user'])
+             ->leftJoin('usr_cars', 'users.id', '=', 'usr_cars.user_id')
+             ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
+             ->get();
+      return view('pages.comment', compact('result1'));
+      return $result;
+      */
+      return 
+    }
+
 }

@@ -43,3 +43,5 @@ Route::post('changelanguage', 'PagesController@changeLanguage');
 
 Route::post('updateName', 'PagesController@updateName');
 Route::post('updatePassword', 'PagesController@updatePassword');
+
+Route::post('searchForUsers', 'PagesController@searchForUsers');
