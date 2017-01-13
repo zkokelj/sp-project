@@ -8,9 +8,11 @@ use View;
 use App\CarManufacturer;
 use App\UsrCar;
 use App\User;
+use App\Comment;
 use App\Consumption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Lang;
 use Log;
 
@@ -235,14 +237,29 @@ class PagesController extends Controller
              ->leftJoin('usr_cars', 'users.id', '=', 'usr_cars.user_id')
              ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
              ->get();
+
+
       $owner = $request['user'];
+      $user = User::where('email', '=', $owner)->first();
 
+      $test2 = User::where('id', '=', Auth::id())->get();
 
+      //dd($test2);
+      return view('pages.comment', compact('result1', 'owner', 'test2', 'user'));
 
+    }
 
-      return view('pages.comment', compact('result1', 'owner'));
-      return $result;
+    public function addComment(Request $request){
+      //TODO: Validate!!
 
+      $input = $request->all();
+      $DB_values['comment'] = $input['comment'];
+      $DB_values['from_user'] = Auth::id();
+      $DB_values['to_user'] = $input['button'];
+      $DB_values['created_at'] = Carbon::now();
+      Comment::create($DB_values);
+      return redirect('comment');
+      return $DB_values;
     }
 
 }
