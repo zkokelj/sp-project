@@ -22,5 +22,11 @@ class UsrCar extends Model
       return $this->belongsTo('App\CarManufacturer', 'manufacturer_id');
     }
 
+    public function cons(){
+      return $this->hasMany('App\Consumption', 'car_id');
+    }
+
+    
+
 
 }
