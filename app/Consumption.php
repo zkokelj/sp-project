@@ -4,7 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 /**
- * ... text1 ...
+ * Consumption class extends Model. It contains $timestamps, $fillable variables that
+ * define characteristics of this model. $timestamps is set to false and $fillable
+ * is defines fields in table that can be assigned... It also contains carOwner function
+ * that returns owner of a car.
  */
 class Consumption extends Model
 {
@@ -13,6 +16,11 @@ class Consumption extends Model
     */
     public $timestamps = false;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
       'car_id',
       'liters',
@@ -20,7 +28,9 @@ class Consumption extends Model
       'created_at',
       'updated_at'
     ];
-
+    /**
+     * Function return owner of a car from UsrCar model.
+     */
     public function carOwner(){
       return $this->belongsTo('App\UsrCar', 'car_id');
     }

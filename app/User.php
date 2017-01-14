@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+/**
+ * User class extends Authenticatable. It contaions $fillable and $hidden arrays.
+ * It also contains getComments function.
+*/
 
 class User extends Authenticatable
 {

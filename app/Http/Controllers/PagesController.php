@@ -19,6 +19,9 @@ use Log;
 
 class PagesController extends Controller
 {
+    /**
+     *  index function is called when we try to access '/'. It returns page.index view
+     */
     public function index(){
       if(View::exists('pages.index')){
         $carm = CarManufacturer::all();
@@ -31,6 +34,9 @@ class PagesController extends Controller
       }
     }
 
+    /**
+     *  calculator function is called when we try to access '/calculator'. It returns page.calculator view
+     */
     public function calculator(){
       if(View::exists('pages.calculator')){
         return view('pages.calculator');
@@ -42,6 +48,9 @@ class PagesController extends Controller
       }
     }
 
+    /**
+     *  fuelprice function is called when we try to access '/fuelprice'. It returns page.fuelprice view
+     */
     public function fuelprice(){
       if(View::exists('pages.fuelprice')){
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
@@ -53,6 +62,9 @@ class PagesController extends Controller
       }
     }
 
+    /**
+     *  pagestats function is called when we try to access '/pagestats'. It returns page.pagestats view
+     */
     public function pagestats(){
       if(View::exists('pages.pagestats')){
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
@@ -70,6 +82,9 @@ class PagesController extends Controller
       }
     }
 
+    /**
+     *  editprofile function is called when we try to edit profile. It returns page.editprofile view
+     */
     public function editProfile(){
       if(View::exists('pages.editProfile')){
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
@@ -81,6 +96,10 @@ class PagesController extends Controller
       }
     }
 
+    /**
+     *  consumption function is called when we try to access '/consumption'. It returns page.consumption view
+     *  with all neccessary variables..
+     */
     public function consumption(){
       if(View::exists('pages.consumption')){
         $carm = CarManufacturer::all();
@@ -110,6 +129,9 @@ class PagesController extends Controller
       }
     }
 
+    /**
+     *  comment function is called when we try to access '/comment'. It returns page.comment view
+     */
     public function comment(){
       if(View::exists('pages.comment')){
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
@@ -121,52 +143,35 @@ class PagesController extends Controller
       }
     }
 
-    public function addcar2user(Request $request){
-     $this->validate($request, [
-        'model' => 'bail|required',
-        'year' => 'bail|required|numeric|min:1900',
-        'ccm' => 'bail|required|numeric|min:0',
-        'fuel'=> 'bail|required|in:bencin,dizel'
-      ]);
-
-      $input = $request->all();
-
-      $input['user_id'] = Auth::id();
-
-      UsrCar::create($input);
-      $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
-      Log::info("User: " . $user_id . " added new car!");
-      return redirect('/consumption');
-    }
-
-    public function addconsumption(Request $request){
+    /**
+     *  searchForUsers function is called when we try search for users.
+     */
+    public function searchForUsers(Request $request){
       $this->validate($request, [
-        'car_id' => 'bail|required|numeric',
-        'liters' => 'bail|required|numeric|min:0',
-        'kilometers' => 'bail|required|numeric|min:0'
-      ]);
+         'user' => 'required'
+       ]);
+       $input = $request->all();
 
-
-      $input = $request->all();
-
-      $user_cars = UsrCar::where('user_id', '=', Auth::id())
-              ->where('id', $input['car_id'])
-              ->orderBy('id', 'desc')
+       $result1 = DB::table('users')
+             ->select('users.email as email', 'usr_cars.model as model', 'car_manufacturers.name as manufacturer', 'usr_cars.id as car_id', 'usr_cars.fuel as fuel', 'usr_cars.ccm as ccm')
+             ->where('users.email', '=', $input['user'])
+             ->leftJoin('usr_cars', 'users.id', '=', 'usr_cars.user_id')
+             ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
              ->get();
 
+      $owner = $request['user'];
+      $user = User::where('email', '=', $owner)->first();
 
-      $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
-      if($user_cars != '[]'){
-        //The car belongs to this user -> we can add consumption
-        Consumption::create($input);
-        Log::info("User: " . $user_id . " added consumption to: " . $user_cars);
-        return redirect('/consumption');
-      }else{
-        Log::warning("User: " . $user_id . " cannot add consumption to car: " . $request['car_id'] );
-        return "REDIRECT TO PAGE 404!";
-      }
+      $test2 = User::where('id', '=', Auth::id())->get();
+
+      //dd($test2);
+      return view('pages.comment', compact('result1', 'owner', 'test2', 'user'));
+
     }
 
+    /**
+     *  searchConsumption function is called when we try to access '/'. It returns page.index view
+     */
     public function searchConsumption(Request $request){
       $input = $request->all();
       //TODO: validate input
@@ -202,64 +207,6 @@ class PagesController extends Controller
       $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
       Log::info("User: " . $user_id . " searched for consumption.");
       return view('pages.index', compact('carm', 'average_consumption'));
-    }
-
-    public function updateName(Request $request){
-      $this->validate($request, [
-         'editName' => 'required|min:1|max:25'
-       ]);
-       $input = $request->all();
-       DB::statement("UPDATE users SET name = ? where id = ?", [$request['editName'], Auth::id()]);
-       return redirect()->back();
-    }
-
-    public function updatePassword(Request $request){
-      $this->validate($request, [
-         'editPass1' => 'required|min:6|max:25',
-         'editPass2' => 'required|min:6|max:25'
-       ]);
-
-       if($request['editPass1'] == $request['editPass2']){
-          DB::statement("UPDATE users SET password = ? where id = ?", [bcrypt($request['editPass1']), Auth::id()]);
-       }
-        return redirect()->back();
-    }
-
-    public function searchForUsers(Request $request){
-      $this->validate($request, [
-         'user' => 'required'
-       ]);
-       $input = $request->all();
-
-       $result1 = DB::table('users')
-             ->select('users.email as email', 'usr_cars.model as model', 'car_manufacturers.name as manufacturer', 'usr_cars.id as car_id', 'usr_cars.fuel as fuel', 'usr_cars.ccm as ccm')
-             ->where('users.email', '=', $input['user'])
-             ->leftJoin('usr_cars', 'users.id', '=', 'usr_cars.user_id')
-             ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
-             ->get();
-
-
-      $owner = $request['user'];
-      $user = User::where('email', '=', $owner)->first();
-
-      $test2 = User::where('id', '=', Auth::id())->get();
-
-      //dd($test2);
-      return view('pages.comment', compact('result1', 'owner', 'test2', 'user'));
-
-    }
-
-    public function addComment(Request $request){
-      //TODO: Validate!!
-
-      $input = $request->all();
-      $DB_values['comment'] = $input['comment'];
-      $DB_values['from_user'] = Auth::id();
-      $DB_values['to_user'] = $input['button'];
-      $DB_values['created_at'] = Carbon::now();
-      Comment::create($DB_values);
-      return redirect('comment');
-      return $DB_values;
     }
 
 }
