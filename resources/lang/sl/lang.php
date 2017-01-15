@@ -44,9 +44,13 @@ return array(
   'year' => 'Letnik',
   'engine_size' => 'Velikost motorja(ccm2)',
 
-
-  
-  'password_again' => "Ponovno geslo"
+  'password_again' => "Ponovno geslo",
+  'no_data' => "Za izbrani model ni podatka.",
+  'you_no_cars' => 'Do zdaj niste dodali še nobenega avtomobila',
+  'user_owns' => ' si je/si lasti naslednje avtomobile: ',
+  'from_comment' => 'Komentar uporabnika: ',
+  'delete_car' => 'Izbriši avto',
+  'update' => 'Posodobi'
 
 
 );

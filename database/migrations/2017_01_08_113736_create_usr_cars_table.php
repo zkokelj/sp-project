@@ -23,7 +23,6 @@ class CreateUsrCarsTable extends Migration
             $table->integer('year');
             $table->float('ccm', 5, 2);
             $table->string('fuel');
-            //$table->timestamps();
         });
     }
 

@@ -1,0 +1,12 @@
+Poročilo o optimizaciji aplikacije.
+
+Nalaganje aplikacije sem optimiziral z pomočjo minify (http://www.minifier.org/)
+Z tem sem zmajšal velikost datotek .css in .js ter tako pripomogel k hitrejšemu nalaganju.
+
+Poleg tega pa sem na več mestih v aplikaciji uorabil tudi predpolnjenje(caching). Primer:
+$carm = Cache::remember('car_manufacturers', 60, function(){
+  return DB::table('car_manufacturers')->get();
+});
+Na ta način si apliacija predpolni proizvajalce avtomobilov za 60 minut in ne izvaja
+SQL poizvedbe v bazi ob vsakem nalaganju strani.
+To sem uporabil na več mestih, kjer ni kritično da so podatki res trenutni. (npr. statistika strani)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use View;
 use App\CarManufacturer;
 use App\UsrCar;
@@ -24,7 +25,9 @@ class PagesController extends Controller
      */
     public function index(){
       if(View::exists('pages.index')){
-        $carm = CarManufacturer::all();
+        $carm = Cache::remember('car_manufacturers', 60, function(){
+          return DB::table('car_manufacturers')->get();
+        });
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
         Log::info("User: " . $user_id . " visited page: index");
         return view('pages.index', compact('carm'));
@@ -70,12 +73,17 @@ class PagesController extends Controller
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
         Log::info("User: " . $user_id . " visited page: pagestats");
 
-
-        $num_of_users = User::count();
-        $num_of_km = Consumption::where('car_id', '!=', '0')->sum('kilometers');
-        $liters = Consumption::where('car_id', '!=', '0')->sum('liters');
+        //Caching number of users for 60 minutes
+        $num_of_users = Cache::remember('users', 60, function(){
+          return DB::table('users')->count();
+        });
+        $num_of_km = Cache::remember('kms', 60, function(){
+          return DB::table('consumptions')->sum('kilometers');
+        });
+        $liters = Cache::remember('liters', 60, function(){
+          return DB::table('consumptions')->sum('liters');
+        });
         return view('pages.pagestats', compact('num_of_users', 'num_of_km', 'liters'));
-
       }else{
         Log::critical("pages.pagestats view not available");
         return 'No view available.';
@@ -102,11 +110,14 @@ class PagesController extends Controller
      */
     public function consumption(){
       if(View::exists('pages.consumption')){
-        $carm = CarManufacturer::all();
+        //Cache car manufacturers for 60 minutes
+        $carm = Cache::remember('car_manufacturers', 60, function(){
+          return DB::table('car_manufacturers')->get();
+        });
         $id = Auth::id();
         $user_cars = UsrCar::where('user_id', '=', $id)
-                ->orderBy('id', 'desc')
-               ->get();
+                  ->orderBy('id', 'desc')
+                  ->get();
 
         foreach ($user_cars as $car) {
           $car['manufacturer_name'] = $car->manufacturer->name;
@@ -119,7 +130,6 @@ class PagesController extends Controller
             $car['average_consumption'] = '\\';
           }
         }
-
         $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
         Log::info("User: " . $user_id . " visited page: consumption");
         return view('pages.consumption', compact('id', 'carm', 'user_cars'));
@@ -151,21 +161,15 @@ class PagesController extends Controller
          'user' => 'required'
        ]);
        $input = $request->all();
-
        $result1 = DB::table('users')
              ->select('users.email as email', 'usr_cars.model as model', 'car_manufacturers.name as manufacturer', 'usr_cars.id as car_id', 'usr_cars.fuel as fuel', 'usr_cars.ccm as ccm')
              ->where('users.email', '=', $input['user'])
              ->leftJoin('usr_cars', 'users.id', '=', 'usr_cars.user_id')
              ->leftJoin('car_manufacturers', 'car_manufacturers.id', '=', 'usr_cars.manufacturer_id')
              ->get();
-
       $owner = $request['user'];
       $user = User::where('email', '=', $owner)->first();
-
-      $test2 = User::where('id', '=', Auth::id())->get();
-
-      //dd($test2);
-      return view('pages.comment', compact('result1', 'owner', 'test2', 'user'));
+      return view('pages.comment', compact('result1', 'owner', 'user'));
 
     }
 
@@ -174,10 +178,14 @@ class PagesController extends Controller
      */
     public function searchConsumption(Request $request){
       $input = $request->all();
-      //TODO: validate input
 
-      //return $request->all();
-
+      $this->validate($request, [
+        'model' => 'required|min: 1',
+        'manufacturer' => 'required|min: 1',
+        'fuel' => 'required|in:bencin,dizel',
+        'od' => 'required|numeric',
+        'do' => 'required|numeric'
+      ]);
       $fuel_consumed = DB::table('consumptions')
             ->select('consumptions.liters','consumptions.kilometers','usr_cars.model', 'usr_cars.ccm', 'usr_cars.fuel', 'car_manufacturers.id')
             ->where('usr_cars.model', '=', $input['model'])
@@ -199,11 +207,13 @@ class PagesController extends Controller
             ->sum('consumptions.kilometers');
       $average_consumption = 0;
       if($kilometers > 0 && $fuel_consumed > 0){
-        $average_consumption =  $fuel_consumed/($kilometers/100);
+        $average_consumption =  round($fuel_consumed/($kilometers/100),2);
+      }else{
+        Log::info("Kilometers or Fuel equal to zero for input:" . serialize($input));
       }
-
-
-      $carm = CarManufacturer::all();
+      $carm = Cache::remember('car_manufacturers', 60, function(){
+        return DB::table('car_manufacturers')->get();
+      });
       $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
       Log::info("User: " . $user_id . " searched for consumption.");
       return view('pages.index', compact('carm', 'average_consumption'));

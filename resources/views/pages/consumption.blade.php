@@ -64,6 +64,34 @@
             </form>
           </div>
         </article>
+        <article class="deleteCar">
+          <header><h2>{{trans('lang.delete_car')}} </h2></header>
+          <div class="deleteCar">
+              <form class="" action="deletecar" method="post" id="deletecar">
+                <table class="fuelInfoTable table" >
+                <tr>
+                  <th colspan="3">{{trans('lang.car')}}</th>
+
+                  <th></th>
+                </tr>
+                <tr>
+                  <td colspan="3" >
+                    <select name="car_id" form="deletecar" style="width:80%">
+                    @foreach ($user_cars as $car)
+                      <option value="{{$car->id}}"> {{$car->manufacturer->name}} {{$car->model}} </option>
+                    @endforeach
+                  </select>
+                </td>
+
+                <td>
+                  {{ csrf_field() }}
+                  <button class="searchButton" type="submit">{{trans('lang.delete_car')}}</button>
+                </td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </article>
         @endif
         <article class="displyedData">
           <header><h2>{{trans('lang.add_car')}}</h2></header>

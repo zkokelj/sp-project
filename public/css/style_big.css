@@ -1,0 +1,446 @@
+@font-face {
+    font-family: "Nexa-rust";
+    src: url(../fonts/NexaRustSlab-BlackShadow01.otf) format("opentype");
+}
+
+/*
+Mobile first web design @author: Žiga Kokelj
+*/
+
+
+/*Design for mobile*/
+body{
+  background-color: #e6e6e6;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+h1 {
+  font-size: 1.5em;
+  font-family: "Nexa-rust", Helvetica;
+  display: inline-block;
+  padding-right: 4%;
+
+}
+h2 {
+  font-size: 1.563em;
+  font-family: "Nexa-rust", Helvetica;
+  text-align: center;
+}
+input[type='text'], input[type="password"], input[type="email"]{
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: white;
+    padding: 5px 7px 5px 7px;
+}
+select {
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>");
+  background-color:#FFF;
+  background-repeat:no-repeat;
+  background-position: right 10px top 5px;
+  background-size: 16px 16px;
+  padding: 3px;
+  font-size: 14px;
+  line-height: 1;
+  border: 1px solid #CCC;
+  border-radius: 0;
+  height: 25px;
+  width: 120px;
+  -webkit-appearance: none;
+  -moz-appearance:none
+   }
+
+ button[type="submit"] {
+     background-color: #0093C2;
+     border: none;
+     color: white;
+     padding: 12px 18px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     margin: 4px 2px;
+     -webkit-transition-duration: 0.5s;
+     transition-duration: 0.5s;
+     cursor: pointer;
+ }
+
+ button[type="submit"]:hover{
+    background-color: #008CBA;
+    color: white;
+ }
+
+ a:link {
+  color: #008CBA;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #008CBA;
+}
+
+
+a:hover {
+
+  text-decoration: underline;
+}
+
+
+.headerWrapper{
+  background-color: #222;
+  color: #FFF;
+  width: 100%;
+  text-align: center;
+}
+.topMenu{
+  display: block;
+  background-color: #FFF;
+  text-align: center;
+}
+.topMenu ul{
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+.topMenu ul li{
+  font-size: 1.3em;
+  margin: 0;
+  padding: 0;
+}
+.topMenu ul li a{
+  color:#454040;
+  font-family: Helvetica;
+  text-decoration: none;
+}
+.topMenu ul li:hover {
+  background: #DBD9D8;
+}
+.topMenu ul > li.active {
+  background-color: #0093C2;
+}
+
+
+/*Content of the page*/
+.mainWrapper{
+  width: 100%;
+  margin: 0 auto;
+  margin-top: -7px;
+}
+
+.mainContent {
+  width: 100%;
+  background-color: #FFF;
+  margin: 0 auto 25px auto;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-bottom: 4px solid #0093C2;
+  border-radius: 5px 5px 0 0;
+}
+
+.sidebar {
+  background-color: #FFF;
+  width: 100%;
+  margin: 0 auto;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+ -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+ box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+ border-bottom: 4px solid #0093C2;
+ border-radius: 5px 5px 0 0;
+}
+
+.footer {
+  width: 100%;
+  height: 40px;
+  float: left;
+  background-color: #0093C2;/*#3b5998;*/
+  margin: 2% 0;
+  color: #FFF;
+  text-align: center;
+  padding: 1% 0;
+}
+
+.sidebar aside {
+  padding-top: 20px;
+}
+
+.blueButton{
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.table{
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table th, td {
+    text-align: center;;
+    padding: 8px 0 8px 0;
+}
+
+.table th {
+    background-color: #0093C2;
+    color: white;
+}
+.table th:first-child {
+  border-radius: 7px 0 0 0;
+}
+.fuelInfoTable th:last-child {
+  border-radius: 0 7px 0 0;
+}
+.displayedCar{
+  text-align: center;
+}
+
+.displayedCar > img{
+  max-width: 50%;
+}
+.statisticsTable{
+  border-radius: 7px 7px 0 0;
+  table-layout: fixed;
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+.statisticsTable th, td {
+    text-align: center;;
+    padding: 8px 0 8px 0;
+}
+
+.statisticsTable th {
+    background-color: #0093C2;
+    color: white;
+
+}
+.statisticsTable tr:first-child th {
+  border-radius: 7px 0 0 0;
+}
+.statisticsTable tr:last-child th {
+  border-radius: 0 0 0 7px;
+}
+.statisticsTable tr{
+  border-bottom: 1px solid gray;
+}
+.siteStatistics{
+  text-align: center;
+  margin: 0 auto;
+}
+.topSidebar{
+  text-align: center;
+}
+.register{
+  text-align: center;
+}
+.calculatorResult{
+  font-size: 2em;
+  font-weight: bold;
+}
+
+#registerTable{
+  width: 80%;
+  margin: 0 auto;
+}
+#registerTable tr{
+  text-align: left;
+}
+
+.loginTable{
+  margin: 0 auto;
+}
+#priceDiesel, #priceBenz95{
+  visibility: hidden;
+}
+
+.tripCostTable{
+    margin: 0 auto;
+}
+.tripCostTable td{
+    text-align: left;
+}
+.calculatorResult{
+  text-align: center;
+}
+.costButton{
+  margin: 0 auto;
+}
+.costButtonTd{
+  text-align: center !important;
+}
+.searchTable{
+  margin: 0 auto;
+}
+
+.resultsTable img{
+  width: 90%;
+}
+
+.calculatorResult{
+  font-size: 1.3em;
+  border: 1px solid black;
+}
+
+.searchResultAverage{
+  display: none;
+}
+#passDontMatch{
+  color: red;
+}
+
+.otherUserSection{
+  text-align: center;
+}
+.otherUserTable{
+  margin: 0 auto;
+}
+.loginFormTable{
+  margin: 0 auto;
+}
+.loginForm{
+  padding-bottom: 15px;
+}
+
+.sidebarButtons{
+  width: 100%;
+}
+.sidebarOuterButtons{
+  display: inline-block;
+}
+
+.sidebarOuterButtons > form{
+  width: 50%;
+  float: left;
+}
+#geoTableRow, #longitude, #latitude{
+  display: none;
+}
+.noDisplay{
+  display: none;
+}
+/*Design for tablets---------------------------------------------------------------------------------------------------*/
+@media (min-width: 414px){
+  body{
+  /*  background-color: yellow;*/
+  }
+  h1{
+    font-size: 2em;
+  }
+  #logo{
+    height: 3em;
+  }
+  .mainContent{
+    width: 95%;
+  }
+  .topSidebar, .sidebar{
+    width: 95%;
+  }
+
+  /* Top meni styles */
+  .topMenu{
+    display: block;
+    background-color: #FFF;
+    height: 2.5em;
+    text-align: center;
+    padding-top: 12px;
+    margin-bottom: 10px;
+  }
+
+  .topMenu ul{
+    display: block;
+    margin-top: 0;
+  }
+
+  .topMenu ul li{
+    display: inline;
+    font-size: 1.3em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topMenu ul li a{
+    color:#454040;
+    font-family: Helvetica;
+    font-weight: 100;
+    text-decoration: none;
+    padding: 10px 1% 15px 1%;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .topMenu ul li a:hover {
+    background: #DBD9D8;
+    border-bottom: 0.188em solid #0093C2;
+  }
+  .topMenu ul > li.active{
+    background-color: #FFF;
+    border: none;
+  }
+
+  .topMenu ul > li.active a{
+    background: #e6e6e6;
+    border-bottom: 0.188em solid #0093C2;
+  }
+  article{
+    padding: 2% 7% 1%;
+    clear: both;
+  }
+
+  .mainContent{
+    margin-top: 0;
+  }
+
+  .mainWrapper{
+    margin-top: 0;
+  }
+
+  .tripCostForm{
+    text-align: center;
+  }
+
+}
+/*Fix for smaller tablets */
+@media (min-width: 414px) and (max-width: 520px){
+  .topMenu{
+      height: 2.4em;
+  }
+ .topMenu ul li{
+   font-size: 1.1em;
+ }
+ .topMenu ul li a{
+   padding: 10px 2px 15px 3px;
+ }
+
+}
+
+/*Design for desktop-------------------------------------------------------------- */
+@media (min-width: 1024px){
+  body{
+  /*  background-color: blue;*/
+  }
+  h1{
+    font-size: 3em;
+  }
+  #logo{
+    height: 5em;
+  }
+  .mainWrapper{
+    width: 85%;
+    padding-top: 2%;
+  }
+  .mainContent{
+    float: left;
+    width: 70%;
+
+  }
+  .sidebar {
+    float: left;
+    width: 28%;
+    margin-left: 2%;
+  }
+
+}

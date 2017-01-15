@@ -29,9 +29,7 @@ class UpdateController extends Controller
     ]);
 
     $input = $request->all();
-
     $input['user_id'] = Auth::id();
-
     UsrCar::create($input);
     $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
     Log::info("User: " . $user_id . " added new car!");
@@ -56,7 +54,6 @@ class UpdateController extends Controller
             ->orderBy('id', 'desc')
            ->get();
 
-
     $user_id = (Auth::id() == "" ? 'NoUser' : Auth::id());
     if($user_cars != '[]'){
       //The car belongs to this user -> we can add consumption
@@ -79,6 +76,7 @@ class UpdateController extends Controller
      ]);
      $input = $request->all();
      DB::statement("UPDATE users SET name = ? where id = ?", [$request['editName'], Auth::id()]);
+     Log::info('User ' . Auth::id() . ' updated name');
      return redirect()->back();
   }
 
@@ -93,6 +91,7 @@ class UpdateController extends Controller
 
      if($request['editPass1'] == $request['editPass2']){
         DB::statement("UPDATE users SET password = ? where id = ?", [bcrypt($request['editPass1']), Auth::id()]);
+        Log::info('User ' . Auth::id() . ' updated password');
      }
       return redirect()->back();
   }
@@ -101,15 +100,35 @@ class UpdateController extends Controller
    *  index function is called when user tries to add a comment.
    */
   public function addComment(Request $request){
-    //TODO: Validate!!
-
+    $this->validate($request, [
+       'comment' => 'required|min:1|max:800',
+       'button' => 'required|numeric'
+     ]);
     $input = $request->all();
     $DB_values['comment'] = $input['comment'];
     $DB_values['from_user'] = Auth::id();
     $DB_values['to_user'] = $input['button'];
     $DB_values['created_at'] = Carbon::now();
     Comment::create($DB_values);
+    Log::info('User '. Auth::id() . ' commented user: ' . $input['button']);
     return redirect('comment');
-    return $DB_values;
+  }
+
+  public function deletecar(Request $request){
+      $this->validate($request, [
+         'car_id' => 'required|numeric|min:1',
+      ]);
+      $input = $request->all();
+      $user_cars = UsrCar::where('user_id', '=', Auth::id())
+              ->where('id', $input['car_id'])
+             ->get();
+      if($user_cars != '[]'){
+        UsrCar::destroy($input['car_id']);
+        Log::info("User " . Auth::user() . " deleted car with id: " . $input['car_id']);
+      }else{
+        Log::warning("User " . Auth::user() . " wanted to delete car without permissons car_id: " . $input['car_id']);
+      }
+
+      return redirect()->back();
   }
 }

@@ -42,7 +42,15 @@ return array(
   'add_consumption' => 'Add consumption',
   'add_car' => 'Add new car',
   'year' => 'Year of production',
-  'engine_size' => 'Engine size(ccm2)'
+  'engine_size' => 'Engine size(ccm2)',
+  'password_again' => "Password again",
+  'no_data' => "There is no data for your search.",
+  'you_no_cars' => 'You haven\'t add any cars yet. ',
+  'user_owns' => ' has owns cars: ',
+  'from_comment' => 'User\'s comment: ',
+  'delete_car' => 'Delete car',
+  'update' => 'Update'
+
 
 );
 

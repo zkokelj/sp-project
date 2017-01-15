@@ -20,17 +20,16 @@
       @endforelse
  -------------------------------------------------------------------
  <br>
- @if(isset($test2))
- @foreach($test2 as $t2)
+ @if(isset($user))
+
  <p>
-   @foreach($t2->getComments as $com)
+   @foreach($user->getComments as $com)
    <p>
      {{$com->comment}}
    </p>
    {{trans('lang.from_comment')}} {{$com->from_user}}
    <br>
    -------------------------------------------------------------------
-   @endforeach
  </p>
 
  @endforeach

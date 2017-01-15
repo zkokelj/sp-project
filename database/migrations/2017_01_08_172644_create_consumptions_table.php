@@ -15,7 +15,6 @@ class CreateConsumptionsTable extends Migration
     {
         Schema::create('consumptions', function (Blueprint $table) {
             $table->increments('id');
-            //$table->integer('user_id');
             $table->integer('car_id')->unsigned();
             $table->foreign('car_id')->references('id')->on('usr_cars')->onDelete('cascade');
             $table->integer('liters');
