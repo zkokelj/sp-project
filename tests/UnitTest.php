@@ -30,7 +30,4 @@ class UnitTest extends TestCase
       $this->assertTrue(true);
     }
 
-    //TODO
-    //testiraj funkcije v modelu
-    //naredi tudi negativne teste, da fail-a.
 }
