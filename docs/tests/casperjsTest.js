@@ -5,15 +5,16 @@ casper.test.begin('CasperJS testing', 4, function suite(test) {
     });
 
 
-casper.start("http://tranquil-beach-27878.herokuapp.com/login", function() {
-    test.assertTitle("Avtoporaba.com", "Title is the one expected");
-    test.assertExists('form[class=form-horizontal]',"Login form is found");
-    this.fillSelectors('form[class=form-horizontal]', {
-        'input[id=email]' : 'ziga.kokelj@gmail.com',
-        'input[id=password]': 'slovenija'
-    }, true);
+    var url = 'http://tranquil-beach-27878.herokuapp.com/login';
 
-});
+    casper.start(url, function() {
+       console.log("page loaded");
+       this.test.assertExists('form[class=form-horizontal]', 'form is found');
+       this.fill('form[class=form-horizontal]', {
+            email: 'ziga.kokelj@gmail.com',
+            password:  'slovenija'
+        }, true);
+    });
 
     casper.then(function(){
       if(!casper.exists('form[class=form-horizontal]')){
